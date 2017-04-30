@@ -1,0 +1,27 @@
+{
+	"name": "h4kuna/date-filter",
+	"type": "library",
+	"description": "Add option define own filters based on date for latte.",
+	"homepage": "https://github.com/h4kuna/date-filter",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Milan Matějček",
+			"email": "milan.matejcek@gmail.com",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"latte/latte": "~2.0",
+		"nette/application": "~2.0",
+		"nette/bootstrap": "~2.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"h4kuna\\DateFilter\\": "src/"
+		}
+	},
+	"require-dev": {
+		"salamium/testinium": "^0.1"
+	}
+}

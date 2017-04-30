@@ -1,0 +1,5 @@
+/nbproject/
+/vendor/
+/tests/temp/
+*.local.neon
+composer.lock
