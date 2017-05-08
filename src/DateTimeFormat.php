@@ -39,6 +39,10 @@ class DateTimeFormat
 		$this->setDayMonthGroup(self::getFirstKey($dayMonth));
 	}
 
+	/**
+	 * @param string $group
+	 * @return self
+	 */
 	public function setDayMonthGroup($group)
 	{
 		if (!isset($this->dayMonth[$group])) {
@@ -46,12 +50,13 @@ class DateTimeFormat
 			throw new \InvalidArgumentException('This group is not defined: "' . $group . '". Let\' choose one of ' . $groups . '.');
 		}
 		$this->dayMonthActive = $group;
+		return $this;
 	}
 
 	/**
-	 * Change group for filter
+	 * Change group of filters
 	 * @param string $group
-	 * @throws \InvalidArgumentException
+	 * @return self
 	 */
 	public function setFormatsGroup($group)
 	{
@@ -61,6 +66,7 @@ class DateTimeFormat
 		}
 
 		$this->formatsActive = $group;
+		return $this;
 	}
 
 	/**
