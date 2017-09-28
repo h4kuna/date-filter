@@ -22,6 +22,7 @@ class DateTimeFormat
 	/** @var array */
 	private $dayMonthHelper = [];
 
+
 	public function __construct(array $formats)
 	{
 		if (!$formats) {
@@ -32,12 +33,14 @@ class DateTimeFormat
 		$this->setFormatsGroup(self::getFirstKey($formats));
 	}
 
+
 	public function setDayMonth(array $dayMonth, array $helper)
 	{
 		$this->dayMonth = $dayMonth;
 		$this->dayMonthHelper = $helper;
 		$this->setDayMonthGroup(self::getFirstKey($dayMonth));
 	}
+
 
 	/**
 	 * @param string $group
@@ -52,6 +55,7 @@ class DateTimeFormat
 		$this->dayMonthActive = $group;
 		return $this;
 	}
+
 
 	/**
 	 * Change group of filters
@@ -69,6 +73,7 @@ class DateTimeFormat
 		return $this;
 	}
 
+
 	/**
 	 * Get format by existing name
 	 * @param string $name
@@ -82,6 +87,7 @@ class DateTimeFormat
 		return $this->formats[$this->formatsActive][$name];
 	}
 
+
 	/**
 	 * @param string $name
 	 * @param int|string|\DateTime $date
@@ -94,7 +100,7 @@ class DateTimeFormat
 		if (!isset($this->dayMonthHelper[$this->formatsActive][$name])) {
 			return $dateString;
 		}
-		return preg_replace_callback('~(?<!\\\\)%([DlFM])%~', function($found) use ($dateObject) {
+		return preg_replace_callback('~(?<!\\\\)%([DlFM])%~', function ($found) use ($dateObject) {
 			$x = $dateObject->format($found[1]);
 			if (isset($this->dayMonth[$this->dayMonthActive][$found[1]][$x])) {
 				return $this->dayMonth[$this->dayMonthActive][$found[1]][$x];
@@ -102,6 +108,7 @@ class DateTimeFormat
 			return $x;
 		}, $dateString);
 	}
+
 
 	private static function getFirstKey(array $array)
 	{

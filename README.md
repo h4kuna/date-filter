@@ -3,6 +3,7 @@ Date filter
 [![Build Status](https://travis-ci.org/h4kuna/date-filter.svg?branch=master)](https://travis-ci.org/h4kuna/date-filter)
 [![Downloads this Month](https://img.shields.io/packagist/dm/h4kuna/date-filter.svg)](https://packagist.org/packages/h4kuna/date-filter)
 [![Latest stable](https://img.shields.io/packagist/v/h4kuna/date-filter.svg)](https://packagist.org/packages/h4kuna/date-filter)
+[![Coverage Status](https://coveralls.io/repos/github/h4kuna/date-filter/badge.svg?branch=master)](https://coveralls.io/github/h4kuna/date-filter?branch=master)
 
 Require PHP 5.4+.
 

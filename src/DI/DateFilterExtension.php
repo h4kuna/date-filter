@@ -7,15 +7,16 @@ use Nette\DI\CompilerExtension;
 class DateFilterExtension extends CompilerExtension
 {
 
-	public $defaults = [
+	private $defaults = [
 		'dayMonth' => [],
 		'formats' => [],
 	];
 
+
 	public function loadConfiguration()
 	{
 		$builder = $this->getContainerBuilder();
-		$config = $this->getConfig($this->defaults);
+		$config = $this->config + $this->defaults;
 		$prepareData = new PrepareFormats((array) $config['formats'], (array) $config['dayMonth']);
 
 		// Filter
@@ -28,9 +29,12 @@ class DateFilterExtension extends CompilerExtension
 
 		$latteFactory = $builder->getDefinition('latte.latteFactory');
 		foreach (current($config['formats']) as $name => $none) {
-			$latteFactory->addSetup('addFilter', [$name, new \Nette\DI\Statement('function($date) {
+			$latteFactory->addSetup('addFilter', [
+				$name,
+				new \Nette\DI\Statement('function($date) {
 					return ?->format(?, $date);
-				}', [$filter, $name])]);
+				}', [$filter, $name])
+			]);
 		}
 	}
 

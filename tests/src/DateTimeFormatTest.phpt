@@ -12,10 +12,12 @@ class DateTimeFormatTest extends \Tester\TestCase
 	/** @var DateTimeFormat */
 	private $dateTimeFormat;
 
+
 	public function __construct(DateTimeFormat $dateTimeFormat)
 	{
 		$this->dateTimeFormat = $dateTimeFormat;
 	}
+
 
 	public function testBasic()
 	{
@@ -29,6 +31,17 @@ class DateTimeFormatTest extends \Tester\TestCase
 
 		$this->dateTimeFormat->setDayMonthGroup('en');
 		Assert::same('Thursday Thu January Jan', $this->dateTimeFormat->format('all', '1987-01-01'));
+
+		Assert::same('d/m', $this->dateTimeFormat->getFormat('dayMonth'));
+	}
+
+
+	/**
+	 * @throws \InvalidArgumentException
+	 */
+	public function testFail()
+	{
+		Assert::same('d/m', $this->dateTimeFormat->getFormat('foo'));
 	}
 
 }

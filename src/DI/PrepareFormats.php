@@ -14,15 +14,17 @@ class PrepareFormats
 	/** @var array */
 	private $helperGroup;
 
+
 	public function __construct(array $dateFormats, array $dayMonth)
 	{
 		$this->dateFormats = $dateFormats;
 		$this->dayMonth = $dayMonth;
 	}
 
+
 	public function validDateFormats()
 	{
-		if ($this->helperGroup !== NULL) {
+		if ($this->helperGroup !== null) {
 			return $this->dateFormats;
 		}
 
@@ -43,7 +45,7 @@ class PrepareFormats
 				$newFormat = self::prepareFormat($regexp, $format, $count);
 				if ($count > 0) {
 					$this->dateFormats[$group][$key] = $newFormat;
-					$this->helperGroup[$group][$key] = TRUE;
+					$this->helperGroup[$group][$key] = true;
 				}
 			}
 			if ($formats) {
@@ -54,21 +56,24 @@ class PrepareFormats
 		return $this->dateFormats;
 	}
 
+
 	public function getHelperFormat()
 	{
 		$this->validDateFormats();
 		return $this->helperGroup;
 	}
 
+
 	public function validDayMonth()
 	{
 		return $this->dayMonth;
 	}
 
+
 	private function getRegexpHelper()
 	{
 		if (!$this->dayMonth) {
-			return NULL;
+			return null;
 		}
 		$n = [];
 		foreach ($this->dayMonth as $group => $data) {
@@ -79,13 +84,14 @@ class PrepareFormats
 		return '/(?<!\\\\)(' . $letters . ')/';
 	}
 
+
 	private static function prepareFormat($regexp, $format, & $count)
 	{
-		if ($regexp === NULL) {
+		if ($regexp === null) {
 			$count = 0;
 			return '';
 		}
-		return preg_replace_callback($regexp, function($found) {
+		return preg_replace_callback($regexp, function ($found) {
 			return '%\\' . $found[1] . '%';
 		}, $format, -1, $count);
 	}
