@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace h4kuna\DateFilter\DI;
 
 class PrepareFormats
 {
 
-	/** @var array */
+	/** @var array<string, string> */
 	private $dateFormats;
 
 	/** @var array */
@@ -22,7 +22,7 @@ class PrepareFormats
 	}
 
 
-	public function validDateFormats()
+	public function validDateFormats(): array
 	{
 		if ($this->helperGroup !== null) {
 			return $this->dateFormats;
@@ -57,23 +57,23 @@ class PrepareFormats
 	}
 
 
-	public function getHelperFormat()
+	public function getHelperFormat(): array
 	{
 		$this->validDateFormats();
 		return $this->helperGroup;
 	}
 
 
-	public function validDayMonth()
+	public function validDayMonth(): array
 	{
 		return $this->dayMonth;
 	}
 
 
-	private function getRegexpHelper()
+	private function getRegexpHelper(): string
 	{
-		if (!$this->dayMonth) {
-			return null;
+		if ($this->dayMonth === []) {
+			return '';
 		}
 		$n = [];
 		foreach ($this->dayMonth as $group => $data) {
@@ -85,9 +85,9 @@ class PrepareFormats
 	}
 
 
-	private static function prepareFormat($regexp, $format, & $count)
+	private static function prepareFormat(string $regexp, string $format, int & $count): string
 	{
-		if ($regexp === null) {
+		if ($regexp === '') {
 			$count = 0;
 			return '';
 		}

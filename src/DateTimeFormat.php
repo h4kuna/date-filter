@@ -1,17 +1,27 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace h4kuna\DateFilter;
 
+use h4kuna\DateFilter\Exceptions\InvalidArgumentException;
 use Nette\Utils;
 
-class DateTimeFormat
+/**
+ * $format is array like
+ * [
+ * 	'cs_CZ' => [
+ * 	  'date' => 'j. n. Y.'
+ * 	  'dayMonth' => 'j. n.'
+ * 	  'day' => 'D'
+ * 	]
+ * ]
+ */
+final class DateTimeFormat
 {
-
-	/** @var array */
+	/** @var array<string, array<string, string>> */
 	private $formats;
 
 	/** @var string */
-	private $formatsActive;
+	private $activeGroup;
 
 	/** @var array */
 	private $dayMonth = [];
@@ -25,28 +35,24 @@ class DateTimeFormat
 
 	public function __construct(array $formats)
 	{
-		if (!$formats) {
-			throw new \InvalidArgumentException('$formats can not be empty.');
+		if ($formats === []) {
+			throw new InvalidArgumentException('$formats can not be empty.');
 		}
 
 		$this->formats = $formats;
-		$this->setFormatsGroup(self::getFirstKey($formats));
+		$this->setFormatsGroup((string) array_key_first($formats));
 	}
 
 
-	public function setDayMonth(array $dayMonth, array $helper)
+	public function setDayMonth(array $dayMonth, array $helper): void
 	{
 		$this->dayMonth = $dayMonth;
 		$this->dayMonthHelper = $helper;
-		$this->setDayMonthGroup(self::getFirstKey($dayMonth));
+		$this->setDayMonthGroup((string) array_key_first($dayMonth));
 	}
 
 
-	/**
-	 * @param string $group
-	 * @return self
-	 */
-	public function setDayMonthGroup($group)
+	public function setDayMonthGroup(string $group): self
 	{
 		if (!isset($this->dayMonth[$group])) {
 			$groups = implode(', ', array_keys($this->dayMonth));
@@ -57,63 +63,47 @@ class DateTimeFormat
 	}
 
 
-	/**
-	 * Change group of filters
-	 * @param string $group
-	 * @return self
-	 */
-	public function setFormatsGroup($group)
+	public function setFormatsGroup(string $group): self
 	{
 		if (!isset($this->formats[$group])) {
 			$groups = implode(', ', array_keys($this->formats));
 			throw new \InvalidArgumentException('This group is not defined: "' . $group . '". Let\' choose one of ' . $groups . '.');
 		}
 
-		$this->formatsActive = $group;
+		$this->activeGroup = $group;
 		return $this;
 	}
 
 
 	/**
 	 * Get format by existing name
-	 * @param string $name
-	 * @return string
 	 */
-	public function getFormat($name)
+	public function getFormat(string $name): string
 	{
-		if (!isset($this->formats[$this->formatsActive][$name])) {
+		if (!isset($this->formats[$this->activeGroup][$name])) {
 			throw new \InvalidArgumentException('This format does not exists: "' . $name . '"');
 		}
-		return $this->formats[$this->formatsActive][$name];
+		return $this->formats[$this->activeGroup][$name];
 	}
 
 
 	/**
-	 * @param string $name
-	 * @param int|string|\DateTime $date
-	 * @return string
+	 * @param int|string|\DateTimeInterface $date
 	 */
-	public function format($name, $date)
+	public function format(string $name, $date): string
 	{
 		$dateObject = Utils\DateTime::from($date);
-		$dateString = $dateObject->format($this->formats[$this->formatsActive][$name]);
-		if (!isset($this->dayMonthHelper[$this->formatsActive][$name])) {
+		$dateString = $dateObject->format($this->formats[$this->activeGroup][$name]);
+		if (!isset($this->dayMonthHelper[$this->activeGroup][$name])) {
 			return $dateString;
 		}
-		return preg_replace_callback('~(?<!\\\\)%([DlFM])%~', function ($found) use ($dateObject) {
+		return (string) preg_replace_callback('~(?<!\\\\)%([DlFM])%~', function ($found) use ($dateObject) {
 			$x = $dateObject->format($found[1]);
 			if (isset($this->dayMonth[$this->dayMonthActive][$found[1]][$x])) {
 				return $this->dayMonth[$this->dayMonthActive][$found[1]][$x];
 			}
 			return $x;
 		}, $dateString);
-	}
-
-
-	private static function getFirstKey(array $array)
-	{
-		reset($array);
-		return key($array);
 	}
 
 }

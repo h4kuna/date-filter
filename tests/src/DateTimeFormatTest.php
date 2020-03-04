@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace h4kuna\DateFilter;
 
@@ -6,7 +6,10 @@ use Tester\Assert;
 
 $container = require __DIR__ . '/../bootsrap.php';
 
-class DateTimeFormatTest extends \Tester\TestCase
+/**
+ * @testCase
+ */
+final class DateTimeFormatTest extends \Tester\TestCase
 {
 
 	/** @var DateTimeFormat */
@@ -19,7 +22,7 @@ class DateTimeFormatTest extends \Tester\TestCase
 	}
 
 
-	public function testBasic()
+	public function testBasic(): void
 	{
 		Assert::same('Thursday Čt Leden Led l D F M', $this->dateTimeFormat->format('all', '1987-01-01'));
 		Assert::same('Tuesday Út December Pro l D F M', $this->dateTimeFormat->format('all', '1986-12-30'));
@@ -39,7 +42,7 @@ class DateTimeFormatTest extends \Tester\TestCase
 	/**
 	 * @throws \InvalidArgumentException
 	 */
-	public function testFail()
+	public function testFail(): void
 	{
 		Assert::same('d/m', $this->dateTimeFormat->getFormat('foo'));
 	}

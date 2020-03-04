@@ -1,8 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace h4kuna\DateFilter\DI;
 
+use h4kuna\DateFilter\DateTimeFormat;
 use Nette\DI\CompilerExtension;
+use Nette\DI\Definitions\Statement;
 
 class DateFilterExtension extends CompilerExtension
 {
@@ -13,7 +15,7 @@ class DateFilterExtension extends CompilerExtension
 	];
 
 
-	public function loadConfiguration()
+	public function loadConfiguration(): void
 	{
 		$builder = $this->getContainerBuilder();
 		$config = $this->config + $this->defaults;
@@ -21,7 +23,7 @@ class DateFilterExtension extends CompilerExtension
 
 		// Filter
 		$filter = $builder->addDefinition($this->prefix('dateTimeFormat'))
-			->setClass('h4kuna\DateFilter\DateTimeFormat', [$prepareData->validDateFormats()]);
+			->setFactory(DateTimeFormat::class, [$prepareData->validDateFormats()]);
 
 		if ($config['dayMonth']) {
 			$filter->addSetup('setDayMonth', [$prepareData->validDayMonth(), $prepareData->getHelperFormat()]);
@@ -29,11 +31,11 @@ class DateFilterExtension extends CompilerExtension
 
 		$latteFactory = $builder->getDefinition('latte.latteFactory');
 		foreach (current($config['formats']) as $name => $none) {
-			$latteFactory->addSetup('addFilter', [
+			$latteFactory->getResultDefinition()->addSetup('addFilter', [
 				$name,
-				new \Nette\DI\Statement('function($date) {
+				new Statement('function($date) {
 					return ?->format(?, $date);
-				}', [$filter, $name])
+				}', [$filter, $name]),
 			]);
 		}
 	}

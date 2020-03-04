@@ -12,9 +12,8 @@
 		}
 	],
 	"require": {
-		"latte/latte": "~2.0",
-		"nette/application": "~2.0",
-		"nette/bootstrap": "~2.0"
+		"php": ">= 7.1",
+		"symfony/polyfill-php73": "^1.10"
 	},
 	"autoload": {
 		"psr-4": {
@@ -22,6 +21,16 @@
 		}
 	},
 	"require-dev": {
-		"salamium/testinium": "^0.1"
+		"tracy/tracy": "^2.6",
+		"nette/tester": "^2.1",
+		"phpstan/phpstan": "^0.11",
+		"latte/latte": "~2.0",
+		"nette/application": "~3.0",
+		"nette/bootstrap": "~3.0"
+	},
+	"suggest": {
+		"latte/latte": "If you want to use Nette extension in templates.",
+		"nette/application": "If you want to use Nette extension in templates.",
+		"nette/bootstrap": "If you want to use Nette extension in templates."
 	}
 }
