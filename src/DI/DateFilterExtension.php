@@ -3,12 +3,10 @@
 namespace h4kuna\DateFilter\DI;
 
 use h4kuna\DateFilter\DateTimeFormat;
-use Nette\DI\CompilerExtension;
-use Nette\DI\Definitions\Statement;
+use Nette\DI;
 
-class DateFilterExtension extends CompilerExtension
+class DateFilterExtension extends DI\CompilerExtension
 {
-
 	private $defaults = [
 		'dayMonth' => [],
 		'formats' => [],
@@ -33,7 +31,7 @@ class DateFilterExtension extends CompilerExtension
 		foreach (current($config['formats']) as $name => $none) {
 			$latteFactory->getResultDefinition()->addSetup('addFilter', [
 				$name,
-				new Statement('function($date) {
+				new DI\Definitions\Statement('function($date) {
 					return ?->format(?, $date);
 				}', [$filter, $name]),
 			]);

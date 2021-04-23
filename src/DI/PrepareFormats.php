@@ -2,9 +2,10 @@
 
 namespace h4kuna\DateFilter\DI;
 
+use h4kuna\DateFilter\Exceptions\InvalidArgumentException;
+
 class PrepareFormats
 {
-
 	/** @var array<string, string> */
 	private $dateFormats;
 
@@ -38,7 +39,7 @@ class PrepareFormats
 			$formats = $formatsOrig;
 			foreach ($values as $key => $format) {
 				if (!isset($formats[$key])) {
-					throw new \RuntimeException('This format "' . $format . '" in section "' . $group . '" is extra, let\'s delete it or must containt everywhere.');
+					throw new InvalidArgumentException(sprintf('This format "%s" in section "%s" is extra, let\'s delete it or must contain everywhere.', $format, $group));
 				}
 				unset($formats[$key]);
 				$count = 0;
@@ -49,7 +50,7 @@ class PrepareFormats
 				}
 			}
 			if ($formats) {
-				throw new \RuntimeException('These formats "' . implode(', ', $formats) . '" is extra, let\'s delete these or must containt everywhere.');
+				throw new InvalidArgumentException(sprintf('These formats "%s" is extra, let\'s delete these or must contain everywhere.', implode(', ', $formats)));
 			}
 		}
 
@@ -76,7 +77,7 @@ class PrepareFormats
 			return '';
 		}
 		$n = [];
-		foreach ($this->dayMonth as $group => $data) {
+		foreach ($this->dayMonth as $data) {
 			$n += $data;
 		}
 

@@ -56,7 +56,7 @@ final class DateTimeFormat
 	{
 		if (!isset($this->dayMonth[$group])) {
 			$groups = implode(', ', array_keys($this->dayMonth));
-			throw new \InvalidArgumentException('This group is not defined: "' . $group . '". Let\' choose one of ' . $groups . '.');
+			throw new InvalidArgumentException(sprintf('This group is not defined: "%s". Let\' choose one of %s.', $group, $groups));
 		}
 		$this->dayMonthActive = $group;
 		return $this;
@@ -67,7 +67,7 @@ final class DateTimeFormat
 	{
 		if (!isset($this->formats[$group])) {
 			$groups = implode(', ', array_keys($this->formats));
-			throw new \InvalidArgumentException('This group is not defined: "' . $group . '". Let\' choose one of ' . $groups . '.');
+			throw new InvalidArgumentException(sprintf('This group is not defined: "%s". Let\' choose one of %s.', $group, $groups));
 		}
 
 		$this->activeGroup = $group;
@@ -81,7 +81,7 @@ final class DateTimeFormat
 	public function getFormat(string $name): string
 	{
 		if (!isset($this->formats[$this->activeGroup][$name])) {
-			throw new \InvalidArgumentException('This format does not exists: "' . $name . '"');
+			throw new InvalidArgumentException(sprintf('This format does not exists: "%s".', $name));
 		}
 		return $this->formats[$this->activeGroup][$name];
 	}
