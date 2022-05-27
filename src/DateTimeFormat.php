@@ -88,10 +88,13 @@ final class DateTimeFormat
 
 
 	/**
-	 * @param int|string|\DateTimeInterface $date
+	 * @param int|string|\DateTimeInterface|null $date
 	 */
 	public function format(string $name, $date): string
 	{
+		if ($date === null) {
+			return '';
+		}
 		$dateObject = Utils\DateTime::from($date);
 		$dateString = $dateObject->format($this->formats[$this->activeGroup][$name]);
 		if (!isset($this->dayMonthHelper[$this->activeGroup][$name])) {
