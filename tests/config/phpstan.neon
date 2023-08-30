@@ -1,7 +1,0 @@
-parameters:
-	autoload_directories:
-		- %rootDir%/../../../tests/
-	ignoreErrors:
-		-
-			message: '/^Call to an undefined method Nette\\DI\\Definitions\\Definition::getResultDefinition\(\)\.$/'
-			path: %rootDir%/../../../src/DI/DateFilterExtension.php

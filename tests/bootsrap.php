@@ -1,25 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
-use Nette\Utils;
+namespace h4kuna\DateFilter\Tests;
 
-include __DIR__ . '/../vendor/autoload.php';
+use Tester;
+use Tracy;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+date_default_timezone_set('Europe/Prague');
 
 Tester\Environment::setup();
 
-$configurator = new Nette\Configurator;
-
-$tmp = __DIR__ . '/temp';
-Utils\FileSystem::createDir($tmp);
-$configurator->enableDebugger($tmp);
-$configurator->setTempDirectory($tmp);
-$configurator->setDebugMode(FALSE);
-$configurator->addConfig(__DIR__ . '/config/test.neon');
-$local = __DIR__ . '/config/test.local.neon';
-if (is_file($local)) {
-	$configurator->addConfig($local);
-}
-
-Tracy\Debugger::enable(FALSE);
-$container = $configurator->createContainer();
-
-return $container;
+define('TEMP_DIR', __DIR__ . '/temp');
+Tracy\Debugger::enable(false, TEMP_DIR);

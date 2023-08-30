@@ -1,6 +1,5 @@
-/.idea/
-/nbproject/
 /vendor/
-/tests/temp/
-*.local.neon
 composer.lock
+*~
+/tests/**/output/
+coverage.html
