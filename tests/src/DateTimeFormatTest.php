@@ -10,7 +10,7 @@ use Nette\Bridges\ApplicationLatte\LatteFactory;
 use Nette\DI;
 use Tester\Assert;
 
-require __DIR__ . '/../bootsrap.php';
+require __DIR__ . '/../bootstrap.php';
 
 /**
  * @testCase

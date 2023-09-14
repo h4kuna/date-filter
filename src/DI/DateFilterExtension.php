@@ -3,6 +3,7 @@
 namespace h4kuna\DateFilter\DI;
 
 use h4kuna\DateFilter\DatetimeFormatterFactory;
+use h4kuna\DateFilter\Intl\DateFormatterFactory;
 use Nette\DI;
 use Nette\Schema;
 
@@ -27,8 +28,8 @@ class DateFilterExtension extends DI\CompilerExtension
 	{
 		$builder = $this->getContainerBuilder();
 		foreach ($this->config->dates as $name => $date) {
-			$date = (new Schema\Processor())->process(Schema\Expect::from(new DateFormat()), $date);
-			assert($date instanceof DateFormat);
+			$date = (new Schema\Processor())->process(Schema\Expect::from(new DateFormatterFactory()), $date);
+			assert($date instanceof DateFormatterFactory);
 
 			$this->services[$name] = [
 				'dateType' => $date->date,

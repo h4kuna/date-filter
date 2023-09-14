@@ -2,10 +2,12 @@
 
 namespace h4kuna\DateFilter\DI;
 
+use h4kuna\DateFilter\Intl\DateFormatterFactory;
+
 final class Config
 {
 	/**
-	 * @var array<string, DateFormat>
+	 * @var array<string, DateFormatterFactory>
 	 */
 	public array $dates = [];
 
