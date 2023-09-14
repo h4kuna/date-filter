@@ -5,6 +5,37 @@ Date filter
 [![Latest stable](https://img.shields.io/packagist/v/h4kuna/date-filter.svg)](https://packagist.org/packages/h4kuna/date-filter)
 [![Coverage Status](https://coveralls.io/repos/github/h4kuna/date-filter/badge.svg?branch=master)](https://coveralls.io/github/h4kuna/date-filter?branch=master)
 
+----
+
+## Náhrada
+
+Koukněte na knihovnu Format konkrétně na [formátování datumů](https://github.com/h4kuna/number-format#date). Zatím nemám kapacitu na to, aby tento doplněk dělal to co je popsané níže.
+
+1. nainstalovat knihovnu `composer require h4kuna/number-format`
+2. sepsat si vlastní sadu formátů v neonu
+
+```neon
+services:
+	date.formats:
+		type: h4kuna\Format\Date\Formats
+		arguments:
+			-
+				date: h4kuna\Format\Date\Formatters\DateTimeFormatter('j.n.Y')
+				foo: h4kuna\Format\Date\Formatters\DateTimeFormatter('H:i:s')
+
+	latte.latteFactory:
+		setup:
+			- addFilter('date', [@date.formats::get('date'), 'format'])
+			- addFilter('time', [@date.formats::get('foo'), 'format'])
+```
+3. v šabloně pak bude fungovat
+```latte
+{=(new DateTime())|date}<br>
+{=(new DateTime())|time}
+```
+
+----
+
 Require PHP 5.4+.
 
 This extension is for php [Nette framework](//github.com/nette/nette).
