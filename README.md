@@ -16,17 +16,23 @@ Koukněte na knihovnu Format konkrétně na [formátování datumů](https://git
 
 ```neon
 services:
-	date.formats:
-		type: h4kuna\Format\Date\Formats
-		arguments:
-			-
-				date: h4kuna\Format\Date\Formatters\DateTimeFormatter('j.n.Y')
-				foo: h4kuna\Format\Date\Formatters\DateTimeFormatter('H:i:s')
+	format.date:
+		factory: h4kuna\Format\Date\Formatters\DateTimeFormatter('j. n. Y')
+		autowired: false
+	format.time:
+		factory: h4kuna\Format\Date\Formatters\DateTimeFormatter('H:i:s')
+		autowired: false
+
+	# budete-li potřebovat formátovat kdekoliv v projektu, použijte tento Accessor
+	number.formats: h4kuna\Format\Date\FormatsAccessor(
+		date: @format.date
+		time: @format.time
+	)
 
 	latte.latteFactory:
 		setup:
-			- addFilter('date', [@date.formats::get('date'), 'format'])
-			- addFilter('time', [@date.formats::get('foo'), 'format'])
+			- addFilter('date', @format.date)
+			- addFilter('time', @format.time)
 ```
 3. v šabloně pak bude fungovat
 ```latte
