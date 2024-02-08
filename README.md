@@ -9,7 +9,7 @@ Date filter
 
 ## Náhrada
 
-Koukněte na knihovnu Format konkrétně na [formátování datumů](https://github.com/h4kuna/number-format#date). Doplněk by vás měl odstínit od manuálního vypisování a skládání objektů, na to momentálně nemám kapacitu, tak vám ukážu jak to dělat ručně ve třech krocích.
+Koukněte na knihovnu Format konkrétně na [formátování datumů](https://github.com/h4kuna/number-format/blob/master/doc/date.md). Doplněk by vás měl odstínit od manuálního vypisování a skládání objektů, na to momentálně nemám kapacitu, tak vám ukážu jak to dělat ručně ve třech krocích.
 
 1. nainstalovat knihovnu `composer require h4kuna/number-format`
 2. sepsat si vlastní sadu formátů v neonu
